@@ -70,3 +70,5 @@ int checkNext(int first, int second, int firstSize, int secondSize, int firstArr
     }
     return sequenceSize;
 }
+
+
