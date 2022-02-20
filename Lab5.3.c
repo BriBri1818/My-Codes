@@ -16,39 +16,39 @@ void longestMutualSequence(int firstArr[], int secondArr[], int sizeA, int sizeB
 {
     int sequenceSize, finalLength = 0, start;
 
-    for (int i = 0; i < sizeA; i++) //will check every index in the array 
+    for (int i = 0; i < sizeA; i++) //will check every index in the first array 
     {
-        for(int j = 0; j < sizeB; j++)
+        for(int j = 0; j < sizeB; j++) //will check every index in the second array
         {
-            if(firstArr[i] == secondArr[j])
-                sequenceSize = checkNext(i, j, sizeA, sizeB, firstArr, secondArr);
+            if(firstArr[i] == secondArr[j]) //if an index in the first array is equal to the same one in the second array
+                sequenceSize = checkNext(i, j, sizeA, sizeB, firstArr, secondArr); //calls on function to see how long the sequence is
             
             else 
             {
-                for(int k = 1; k < sizeB; k++)
+                for(int k = 1; k < sizeB; k++) //will see if an a value in the first array appears anywhere in the second
                 {
                     int nextJ = j + k;
-                    if(firstArr[i] == secondArr[nextJ])
-                        sequenceSize = checkNext(i, nextJ, sizeA, sizeB, firstArr, secondArr);
+                    if(firstArr[i] == secondArr[nextJ]) //when a value in the first array is equal to a value in the second
+                        sequenceSize = checkNext(i, nextJ, sizeA, sizeB, firstArr, secondArr); // calls on function to see how long the sequence is
                         
                     else
-                        sequenceSize = 0;
+                        sequenceSize = 0; //means there is no sequence
                 }
             }
             
-            if(sequenceSize > finalLength)
+            if(sequenceSize > finalLength) //will make sure the longest sequence is printed
             {
                 finalLength = sequenceSize;
                 start = i;
             }
         }
     }
-    printf("Longest Common Sequence is");
+    printf("Longest common sequence is");
     
-    for(int m = start; m < (start + sequenceSize); m++)
+    for(int m = start; m < (start + finalLength); m++)
         printf(" %d,", firstArr[m]);
         
-    printf(" %d.", firstArr[start + sequenceSize]);
+    printf(" %d.", firstArr[start + finalLength]); // prints the last number in the sequence
     
     return;
 }   
