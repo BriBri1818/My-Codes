@@ -25,7 +25,7 @@ void longestMutualSequence(int firstArr[], int secondArr[], int sizeA, int sizeB
             
             else 
             {
-                for(int k = 1; k < sizeB; k++) //will see if an a value in the first array appears anywhere in the second
+                for(int k = 1; k < (sizeB - 1) && k < (sizeB - 1); k++) //will see if an a value in the first array appears anywhere in the second
                 {
                     int nextJ = j + k;
                     if(firstArr[i] == secondArr[nextJ]) //when a value in the first array is equal to a value in the second
@@ -45,10 +45,10 @@ void longestMutualSequence(int firstArr[], int secondArr[], int sizeA, int sizeB
     }
     printf("Longest common sequence is");
     
-    for(int m = start; m < (start + finalLength); m++)
+    for(int m = start; m < (start + finalLength - 1); m++)
         printf(" %d,", firstArr[m]);
         
-    printf(" %d.", firstArr[start + finalLength]); // prints the last number in the sequence
+    printf(" %d.", firstArr[start + finalLength - 1]);
     
     return;
 }   
@@ -70,5 +70,3 @@ int checkNext(int first, int second, int firstSize, int secondSize, int firstArr
     }
     return sequenceSize;
 }
-
-
