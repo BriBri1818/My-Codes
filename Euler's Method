@@ -1,0 +1,178 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Eulers2 {
+	
+	//making a global input reader for chk_pro
+	public static BufferedReader cin = new BufferedReader(new InputStreamReader(System.in));
+	
+	public static void main(String[] args) throws NumberFormatException, IOException
+	{
+		double option = 1, stepSize = 0, tb = 0, initialY = 0, alpha = 0; 
+		int count = 0;
+		double [][] chart = new double[101][2];
+		
+		while(option != 0) 
+		{
+			option = getMenuChoice();
+			
+			if(option == 0) //automatically ends code if option is 0
+			{
+				System.out.print("Au revoir!\n");
+				System.exit(0);
+			} 
+			
+			else if(option == 1)
+			{
+				System.out.println("Please enter your desired step size: ");
+				stepSize = Double.parseDouble(cin.readLine());
+				System.out.println("CONIFMATION: step size is " + stepSize +"\n");
+			}
+			
+			else if(option == 2)
+			{
+				System.out.println("Please enter tb: ");
+				tb = Double.parseDouble(cin.readLine());
+				
+				System.out.println("Please enter what y equals at tb: ");
+				initialY = Double.parseDouble(cin.readLine());
+				
+				System.out.println("CONFIRMATION: initial condition is y(" + tb + ") = " + initialY +"\n");
+			}
+			
+			else if(option == 3)
+			{
+				alpha = getInteger("Please enter your alpha: ", -10000000, 1000000);
+				
+				System.out.println("CONFIRMATION: alpha is " + alpha);
+			}
+			
+			else if(option == 4)
+			{
+				fillChart(chart, stepSize, tb, initialY, alpha);
+			}
+			
+			else if(option == 5)
+			{
+				displayChart(chart, count);
+			}
+			
+			else if(option != 0) 
+			{
+				System.out.print("ERROR: Invalid menu choice!\n\n");
+			}
+		}
+	}
+
+	//calls displayMenu and gets the user option choice
+	public static double getMenuChoice () throws NumberFormatException, IOException
+	{
+		displayMenu();
+		
+		double choice; 
+		String f = cin.readLine();
+			
+		try 
+		{
+			choice = Double.parseDouble(f);
+			return choice;
+		} catch (NumberFormatException e) {
+			System.out.println("ERROR: Invalid menu choice!\n\n"); 
+			choice = getMenuChoice();
+		}
+			
+		return choice;
+	}
+
+	//prints the menu prompts 
+	public static void displayMenu() throws NumberFormatException, IOException  
+	{ 	
+		System.out.print("   JAVA EULER'S METHOD PROGRAM\n");
+		System.out.print("0 - Quit\n");
+		System.out.print("1 - Enter Step Size\n");
+		System.out.print("2 - Enter Initial Condition\n");
+		System.out.print("3 - Enter alpha\n");
+		System.out.print("4 - Calculate\n");
+		System.out.print("5 - Print Results\n\n");
+		System.out.print("Enter choice: \n");
+	}
+	
+	public static double getInteger(String prompt, int LB, int UB) throws IOException
+	{
+		System.out.println(prompt);
+		
+		double input = Double.parseDouble(cin.readLine());	
+		
+		return input;
+	}
+	
+	public static void fillChart(double [][] chart, double step, double tb, double initialY, double alpha)
+	{
+		int count = 0;
+		double copyTB = tb, yCurrent, Ta;
+		
+		while(count <= 100)
+		{
+			chart[count][0] = copyTB;
+			
+			copyTB = copyTB + step;
+			count++;
+		}
+		
+		chart[0][1] = initialY;
+		int previous = 0;
+		
+		for(int current = 1; current <= 100; current++)
+		{			
+			Ta = getTA(chart[previous][0]);
+			
+			System.out.println("\nTa is " + Ta);
+			
+			double fOfX = alpha * (Ta - chart[previous][1]);
+			
+			yCurrent = chart[previous][1] + (step * fOfX);
+			
+			chart[current][1] = yCurrent;
+			
+			previous++;
+		}
+	}
+	
+	public static void displayChart(double [][] chart, int count)
+	{
+		System.out.print("Time     Temp\n");
+		System.out.print("-------------\n");
+		
+		/*while(chart[count][0] < 0)
+		{
+			count++;
+		}*/
+		
+		do {
+			
+			System.out.println(chart[count][0] + "      " + chart[count][1]);
+			
+			count++;				
+		}while(chart[count][0] <= 100);
+		
+		System.out.print("\n");
+	}
+	
+	public static double getTA(double time)
+	{
+		double TA;
+		
+		if(time < 0)
+		{
+			TA = (-0.04 * (time * time)) + 540;
+		}
+		
+		else
+		{
+			TA = (540 * Math.exp(-0.007 * time)) + 6;
+		}
+		
+		return TA;
+	}
+}
